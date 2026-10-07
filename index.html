@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>KAIZEN — Etsy Yetkilendirme Sonucu</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 640px; margin: 60px auto; padding: 0 20px; background:#0f1115; color:#e8e8e8; }
+  h1 { font-size: 1.3rem; }
+  .field { margin: 22px 0; }
+  label { display:block; font-size:.85rem; color:#9aa0aa; margin-bottom:4px; }
+  .value { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; background:#1c1f26; border:1px solid #333844; border-radius:6px; padding:10px 12px; word-break:break-all; user-select:all; }
+  .error { color:#ff6b6b; }
+  button { margin-top:6px; padding:6px 12px; border-radius:6px; border:1px solid #444a56; background:#22262e; color:#eee; cursor:pointer; font-size:.85rem; }
+  button:hover { background:#2c313b; }
+  .hint { color:#9aa0aa; font-size:.85rem; margin-top:32px; line-height:1.5; }
+</style>
+</head>
+<body>
+  <h1>KAIZEN — Etsy Yetkilendirme Sonucu</h1>
+  <div id="content"></div>
+  <p class="hint">
+    Bu sayfa hiçbir veriyi başka bir sunucuya göndermez, saklamaz veya kaydetmez —
+    sadece tarayıcının adres satırındaki bilgiyi okuyup burada gösterir.
+    Aşağıdaki değer(ler)i kopyalayıp KAIZEN'i çalıştıran kişiye iletin.
+    Bu kod tek kullanımlıktır ve kısa süre içinde geçersiz olur.
+  </p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const state = params.get("state");
+    const error = params.get("error");
+    const container = document.getElementById("content");
+
+    function field(labelText, value) {
+      const wrap = document.createElement("div");
+      wrap.className = "field";
+      const label = document.createElement("label");
+      label.textContent = labelText;
+      const val = document.createElement("div");
+      val.className = "value";
+      val.textContent = value;
+      const btn = document.createElement("button");
+      btn.textContent = "Kopyala";
+      btn.onclick = () => navigator.clipboard.writeText(value);
+      wrap.appendChild(label);
+      wrap.appendChild(val);
+      wrap.appendChild(btn);
+      return wrap;
+    }
+
+    if (error) {
+      const p = document.createElement("p");
+      p.className = "error";
+      p.textContent = "Yetkilendirme reddedildi veya bir hata oluştu: " + error;
+      container.appendChild(p);
+    } else if (code && state) {
+      container.appendChild(field("code", code));
+      container.appendChild(field("state", state));
+    } else {
+      const p = document.createElement("p");
+      p.textContent = "Beklenen parametreler bulunamadı. Bu sayfaya doğrudan mı geldiniz?";
+      container.appendChild(p);
+    }
+  </script>
+</body>
+</html>
